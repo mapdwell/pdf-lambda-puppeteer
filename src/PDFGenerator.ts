@@ -1,6 +1,5 @@
 import { Helper } from "./Helper";
 import { GeneratorFunction } from "./types/GeneratorTypes";
-import { getTemplate } from "./templates/pdf-template";
 
 export class PDFGenerator {
   /**
@@ -10,11 +9,13 @@ export class PDFGenerator {
    */
   static getPDF: GeneratorFunction = async (event) => {
     try {
-      const html = getTemplate({ name: "Keshav" });
+      const body = event.body;
+      const html = Buffer.from(body.htmlBase64, 'base64').toString('utf8');
       const options = {
-        format: "A4",
+        format: "Letter",
         printBackground: true,
-        margin: { top: "1in", right: "1in", bottom: "1in", left: "1in" },
+        margin: { top: "0", right: "0", bottom: "0", left: "0" },
+        ...body.options,
       };
 
       const pdf = await Helper.getPDFBuffer(html, options);
@@ -30,6 +31,9 @@ export class PDFGenerator {
     } catch (error) {
       console.error("Error : ", error);
       return {
+        headers: {
+          "Content-type": "application/json",
+        },
         statusCode: 500,
         body: JSON.stringify({
           error,
