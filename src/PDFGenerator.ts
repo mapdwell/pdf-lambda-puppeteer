@@ -7,18 +7,9 @@ export class PDFGenerator {
    * @param {any} event - The object that comes for lambda which includes the http's attributes
    * @returns {Array<any>} array of Structure Instructions
    */
-  static getPDF: GeneratorFunction = async (event) => {
+  static getPDF: GeneratorFunction = async (body) => {
     try {
-      const body = event.body;
-      const html = Buffer.from(body.htmlBase64, 'base64').toString('utf8');
-      const options = {
-        format: "Letter",
-        printBackground: true,
-        margin: { top: "0", right: "0", bottom: "0", left: "0" },
-        ...body.options,
-      };
-
-      const pdf = await Helper.getPDFBuffer(html, options);
+      const pdf = await Helper.getPDFBuffer(body.url, body.html, body.options);
 
       return {
         headers: {
