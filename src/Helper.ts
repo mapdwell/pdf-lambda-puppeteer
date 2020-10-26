@@ -20,9 +20,7 @@ export class Helper {
       });
       if(url) {
         await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0', 'load'] });
-      }
-      console.log(html)
-      if(html) {
+      } else if(html) {
         await page.setContent(html, { waitUntil: ['domcontentloaded', 'networkidle0', 'load'] });
       }
       await loaded;
