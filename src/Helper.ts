@@ -15,6 +15,9 @@ export class Helper {
       });
 
       const page = await browser.newPage();
+      if (options.authentication) {
+        await page.authenticate(options.authentication);
+      }
       const loaded = page.waitForNavigation({
         waitUntil: "load",
       });
