@@ -1,6 +1,5 @@
 import { Helper } from "./Helper";
 import { GeneratorFunction } from "./types/GeneratorTypes";
-import { getTemplate } from "./templates/pdf-template";
 
 export class PDFGenerator {
   /**
@@ -8,16 +7,9 @@ export class PDFGenerator {
    * @param {any} event - The object that comes for lambda which includes the http's attributes
    * @returns {Array<any>} array of Structure Instructions
    */
-  static getPDF: GeneratorFunction = async (event) => {
+  static getPDF: GeneratorFunction = async (body) => {
     try {
-      const html = getTemplate({ name: "Keshav" });
-      const options = {
-        format: "A4",
-        printBackground: true,
-        margin: { top: "1in", right: "1in", bottom: "1in", left: "1in" },
-      };
-
-      const pdf = await Helper.getPDFBuffer(html, options);
+      const pdf = await Helper.getPDFBuffer(body.url, body.html, body.options);
 
       return {
         headers: {
@@ -30,6 +22,9 @@ export class PDFGenerator {
     } catch (error) {
       console.error("Error : ", error);
       return {
+        headers: {
+          "Content-type": "application/json",
+        },
         statusCode: 500,
         body: JSON.stringify({
           error,

@@ -17,8 +17,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
-  profile: personal # Modify or remove accordingly
-  region: ${opt:region, 'ap-south-1'}
+  region: ${opt:region, 'us-east-1'}
   endpointType: REGIONAL
   stage: ${opt:stage, 'dev'}
   apiGateway:
@@ -28,10 +27,10 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
 
 functions:
-  getPDF:
-    handler: handler.getPDF
+  pdf:
+    handler: handler.pdf
     memorySize: 1024 # Setting a higher RAM size to facilitate PDF generation
     events:
       - http:
-          method: get
-          path: /getPDF
+          method: post
+          path: /pdf

@@ -4,4 +4,4 @@
  * @param {any} options - Options to create a PDF file
  * @returns {any}
  */
-export type GetPDFBuffer = (html: string, options: any) => any;
+export type GetPDFBuffer = (url: string, html: string, options: any) => any;
