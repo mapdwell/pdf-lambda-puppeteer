@@ -15,12 +15,19 @@ export class Helper {
       });
 
       const page = await browser.newPage();
-      if (options.authentication) {
-        await page.authenticate(options.authentication);
-      }
+
       const loaded = page.waitForNavigation({
         waitUntil: "load",
       });
+
+      if (options.authentication) {
+        await page.authenticate(options.authentication);
+      }
+      
+      if (options.headers) {
+        await page.setExtraHTTPHeaders(options.headers)
+      }
+
       if(url) {
         await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0', 'load'] });
       } else if(html) {
