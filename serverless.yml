@@ -30,6 +30,7 @@ functions:
   pdf:
     handler: handler.pdf
     memorySize: 1024 # Setting a higher RAM size to facilitate PDF generation
+    timeout: 30
     events:
       - http:
           method: post
